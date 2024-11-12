@@ -1,0 +1,54 @@
+/* src/components/Header.module.css */
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 2px solid #ddd;
+    background-color: #1f2937;
+  }
+  
+  .logoSection {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo {
+    height: 100px;
+    width: 100px;
+    margin-right: 1rem;
+  }
+  
+  .navLinks {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  .navLink {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .navLink:hover {
+    text-decoration: underline;
+  }
+  
+  .logoutButton {
+    padding: 0.5rem 1rem;
+    background-color: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 0.375rem;
+    cursor: pointer;
+  }
+  
+  .logoutButton:hover {
+    background-color: #dc2626;
+  }
+  
+  .authLinks {
+    display: flex;
+    gap: 1rem;
+  }
+  
