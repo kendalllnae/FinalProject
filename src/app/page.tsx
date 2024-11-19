@@ -37,7 +37,6 @@ export default function Home() {
           <Item key={item.id} item={item} />
         ))}
       </div>
-
       {/* If logged in, show 'Add New Item' link or toggle form */}
       {isLoggedIn && (
           <Link href="/add-item" className={styles.addItemLink}>
@@ -46,4 +45,5 @@ export default function Home() {
       )}
     </div>
   );
+  //comment
 }
