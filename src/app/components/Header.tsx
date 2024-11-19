@@ -35,9 +35,6 @@ export default function Header({ isLoggedIn, setIsLoggedIn }: HeaderProps) {
 
       {/* Navigation Links on the right */}
       <nav className={styles.navLinks}>
-        <Link href="/kids" className={styles.navLink}>Kids</Link>
-        <Link href="/women" className={styles.navLink}>Women</Link>
-        <Link href="/men" className={styles.navLink}>Men</Link>
         <Link href="/" className={styles.navLink}>Home</Link>
         {isLoggedIn ? (
           <>
