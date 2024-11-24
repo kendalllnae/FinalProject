@@ -7,10 +7,11 @@ import React from "react";
 
 interface HeaderProps {
   isLoggedIn: boolean;
+  userRole: string;
   setIsLoggedIn: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function Header({ isLoggedIn, setIsLoggedIn }: HeaderProps) {
+export default function Header({ isLoggedIn, userRole, setIsLoggedIn }: HeaderProps) {
   const router = useRouter();
 
   useEffect(() => {
@@ -22,6 +23,7 @@ export default function Header({ isLoggedIn, setIsLoggedIn }: HeaderProps) {
   const handleLogout = () => {
     setIsLoggedIn(false);
     localStorage.removeItem("isLoggedIn"); // Clear login status
+    localStorage.removeItem("userRole"); // Clear user role on logout
     router.push("/"); // Redirect to the home page
   };
 
@@ -36,13 +38,18 @@ export default function Header({ isLoggedIn, setIsLoggedIn }: HeaderProps) {
       {/* Navigation Links on the right */}
       <nav className={styles.navLinks}>
         <Link href="/" className={styles.navLink}>Home</Link>
+        {isLoggedIn && userRole === "admin" && (
+         <Link href="/add-item" className={styles.navLink}>Add Item</Link>
+        )}
         {isLoggedIn ? (
           <>
+
             <Link href="/add-item" className={styles.navLink}>Add Item</Link>
             <Link href="/view-cart" className={styles.navLink}>View Cart</Link>
             <button onClick={handleLogout} className={styles.logoutButton}>
               Logout
             </button>
+
           </>
         ) : (
           <>

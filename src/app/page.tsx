@@ -20,26 +20,28 @@ const dummyData = [
 
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Default set to logged out
+  const [userRole, setUserRole] = useState(""); // Default set to customer
 
   useEffect(() => {
     // Check login status on mount
     const loginStatus = localStorage.getItem("isLoggedIn");
+    const role = localStorage.getItem("userRole");
     setIsLoggedIn(loginStatus === "true");
+    setUserRole(role || "customer");
   }, []);
 
   return (
     <div className={styles.container}>
-      <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
-      <h1 className={styles.heading}>Welcome to Our Shoe Shop!</h1>
+      <Header isLoggedIn={isLoggedIn} userRole={userRole} setIsLoggedIn={setIsLoggedIn} />
+      <h1 className={styles.heading}>Welcome to Our Shoe Shop! </h1>
       
       <div className={styles.itemGrid}>
         {dummyData.map((item) => (
           <Item key={item.id} item={item} />
         ))}
       </div>
-
-      {/* If logged in, show 'Add New Item' link or toggle form */}
-      {isLoggedIn && (
+      
+      {isLoggedIn && userRole === "admin" && (
           <Link href="/add-item" className={styles.addItemLink}>
           Add New Item
         </Link>

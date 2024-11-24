@@ -16,8 +16,11 @@ export default function SignupPage() {
     if (username && email && password) {
       // Save user details to localStorage
       const userData = { username, email, password };
+      const userRole = email === "admin@gmail.com" ? "admin" : "customer"; // Default to "customer" role
+
       localStorage.setItem("userData", JSON.stringify(userData));
       localStorage.setItem("isLoggedIn", "true"); // Mark user as logged in
+      localStorage.setItem("userRole", userRole); // Set role upon signup
 
       router.push("/"); // Redirect to home page
     } else {
