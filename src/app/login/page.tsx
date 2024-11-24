@@ -19,7 +19,9 @@ export default function LoginPage() {
 
       // Check if entered credentials match stored credentials
       if (email === storedEmail && password === storedPassword) {
+        const userRole = email === "admin@gmail.com" ? "admin" : "customer"; // Define role based on email
         localStorage.setItem("isLoggedIn", "true"); // Mark user as logged in
+        localStorage.setItem("userRole", userRole);
         router.push("/"); // Redirect to home page
       } else {
         setError("Invalid email or password");
