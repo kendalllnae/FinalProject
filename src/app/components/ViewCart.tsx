@@ -42,5 +42,6 @@ export default function ViewCart() {
         </tfoot>
       </table>
     </div>
+    //comment
   );
 }
