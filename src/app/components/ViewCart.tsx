@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { cartItems } from './CartStore'; // Import the cart items
 
 export default function ViewCart() {
+  const [showMessage, setShowMessage] = useState(false); // State for showing the popup
+
   if (cartItems.length === 0) {
     return (
       <div className="text-center p-4">
@@ -12,6 +14,12 @@ export default function ViewCart() {
 
   // Calculate the total price of the cart items
   const totalPrice = cartItems.reduce((total, item) => total + parseFloat(item.price.replace('$', '')), 0);
+
+  // Function to handle checkout
+  const handleCheckout = () => {
+    setShowMessage(true); // Show the thank-you message
+    setTimeout(() => setShowMessage(false), 3000); // Hide it after 3 seconds
+  };
 
   return (
     <div className="p-4">
@@ -41,7 +49,23 @@ export default function ViewCart() {
           </tr>
         </tfoot>
       </table>
+
+      <div className="mt-4 text-center">
+        <button
+          onClick={handleCheckout}
+          className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700"
+        >
+          Checkout
+        </button>
+      </div>
+
+      {showMessage && (
+        <div className="mt-4 text-center">
+          <p className="bg-green-100 text-green-700 font-semibold py-2 px-4 rounded-md">
+            Thank you for shopping!
+          </p>
+        </div>
+      )}
     </div>
-    //comment
   );
 }
