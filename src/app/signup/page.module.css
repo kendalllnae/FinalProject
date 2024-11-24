@@ -1,41 +1,101 @@
+/* Container styles for the signup form */
 .container {
-    padding: 2rem;
-    max-width: 600px;
-    margin: auto;
+  padding: 2rem;
+  max-width: 500px;
+  margin: 3rem auto;
+  background-color: #fefefe; /* Light background for contrast */
+  border: 1px solid #ddd; /* Subtle border for structure */
+  border-radius: 12px; /* Rounded corners for elegance */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds depth */
+}
+
+/* Form heading */
+.heading {
+  font-size: 2rem;
+  text-align: center;
+  color: #002855; /* Deep navy blue */
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+/* Form layout styles */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Label styles */
+.form label {
+  font-weight: bold;
+  font-size: 1rem;
+  color: #002855; /* Matches the heading color */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Scoped input styles */
+.inputField {
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ccc; /* Neutral border */
+  border-radius: 6px; /* Rounded input field */
+  outline: none;
+  background-color: #ffffff; /* Clean white background */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Focus effect for inputs */
+.inputField:focus {
+  border-color: #005bb5; /* Navy blue highlight on focus */
+  box-shadow: 0 0 0 3px rgba(0, 91, 181, 0.2); /* Adds focus ring */
+}
+
+/* Error message styles */
+.error {
+  color: #d32f2f; /* Subtle, accessible red for errors */
+  font-size: 0.875rem;
+  margin-top: -1rem; /* Align error messages closer to fields */
+}
+
+/* Submit button styles */
+.submitButton {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #ffffff; /* White text for contrast */
+  background-color: #002855; /* Primary navy blue */
+  border: none;
+  border-radius: 8px; /* Rounded button */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Hover effect for submit button */
+.submitButton:hover {
+  background-color: #005bb5; /* Brighter navy blue on hover */
+  transform: scale(1.05); /* Subtle zoom effect */
+}
+
+/* Active effect for submit button */
+.submitButton:active {
+  background-color: #003f8a; /* Darker navy blue for active state */
+  transform: scale(1); /* Resets zoom */
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .container {
+    padding: 1.5rem;
+    margin: 2rem auto;
   }
-  
+
   .heading {
-    font-size: 2rem;
-    text-align: center;
-    margin-bottom: 2rem;
+    font-size: 1.75rem;
   }
-  
-  .form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  .form label {
-    display: flex;
-    flex-direction: column;
-    font-weight: bold;
-  }
-  
-  .error {
-    color: red;
-    font-size: 0.875rem;
-  }
-  
+
   .submitButton {
-    padding: 0.5rem 1rem;
-    background-color: #0070f3;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+    font-size: 0.95rem;
+    padding: 0.7rem 1.4rem;
   }
-  
-  .submitButton:hover {
-    background-color: #005bb5;
-  }
+}

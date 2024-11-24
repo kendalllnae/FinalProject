@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import styles from "../page.module.css";
+import styles from "./page.module.css";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -40,6 +40,7 @@ export default function LoginPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            className = {styles.inputField}
           />
         </label>
         <label>
@@ -49,6 +50,7 @@ export default function LoginPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            className={styles.inputField}
           />
         </label>
         {error && <p className={styles.error}>{error}</p>}

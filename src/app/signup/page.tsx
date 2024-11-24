@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import styles from "../page.module.css";
+import styles from "./page.module.css";
 
 export default function SignupPage() {
   const [username, setUsername] = useState("");
@@ -33,6 +33,7 @@ export default function SignupPage() {
           Username:
           <input
             type="text"
+            className = {styles.inputField}
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
@@ -42,6 +43,7 @@ export default function SignupPage() {
           Email:
           <input
             type="email"
+            className = {styles.inputField}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -51,9 +53,9 @@ export default function SignupPage() {
           Password:
           <input
             type="password"
+            className={styles.inputField}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
           />
         </label>
         {error && <p className={styles.error}>{error}</p>}
