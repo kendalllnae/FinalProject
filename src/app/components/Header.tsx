@@ -39,6 +39,7 @@ export default function Header({ isLoggedIn, setIsLoggedIn }: HeaderProps) {
         {isLoggedIn ? (
           <>
             <Link href="/add-item" className={styles.navLink}>Add Item</Link>
+            <Link href="/view-cart" className={styles.navLink}>View Cart</Link>
             <button onClick={handleLogout} className={styles.logoutButton}>
               Logout
             </button>
