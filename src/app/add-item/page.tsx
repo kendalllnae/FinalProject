@@ -6,18 +6,26 @@ import styles from "../page.module.css";
 import { useRouter } from "next/navigation";
 
 export default function AddItemPage() {
-  // Set up the login state if necessary (for demonstration purposes)
   const [isLoggedIn, setIsLoggedIn] = useState(true); // Assume user is logged in for this page
-  const [userRole, setUserRole] = useState("customer");
-
+  const [userRole, setUserRole] = useState("customer"); // Default to 'customer' role
   const router = useRouter();
 
   useEffect(() => {
-    const userRole = localStorage.getItem("userRole");
-    if (userRole !== "admin") {
-      router.push("/"); // Redirect non-admin users to the home page
+    // Get user role from localStorage
+    const storedRole = localStorage.getItem("userRole");
+
+    // Check if the role is valid (i.e., admin)
+    if (storedRole === "admin") {
+      setUserRole("admin"); // Set role to admin if found
+    } else {
+      setUserRole("customer"); // Default role
     }
-  }, []);
+
+    // If the role is not admin, redirect to the home page
+    if (storedRole !== "admin") {
+      router.push("/"); // Redirect to home for non-admins
+    }
+  }, [router]);
 
   return (
     <div className={styles.container}>
@@ -27,3 +35,7 @@ export default function AddItemPage() {
     </div>
   );
 }
+
+
+
+

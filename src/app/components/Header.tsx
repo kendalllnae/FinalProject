@@ -17,7 +17,6 @@ export default function Header({ isLoggedIn, userRole, setIsLoggedIn }: HeaderPr
   useEffect(() => {
     // Check local storage for login status
     const loginStatus = localStorage.getItem("isLoggedIn");
-    
   }, []);
 
   const handleLogout = () => {
@@ -39,17 +38,14 @@ export default function Header({ isLoggedIn, userRole, setIsLoggedIn }: HeaderPr
       <nav className={styles.navLinks}>
         <Link href="/" className={styles.navLink}>Home</Link>
         {isLoggedIn && userRole === "admin" && (
-         <Link href="/add-item" className={styles.navLink}>Add Item</Link>
+          <Link href="/add-item" className={styles.navLink}>Add Item</Link>
         )}
         {isLoggedIn ? (
           <>
-
-            <Link href="/add-item" className={styles.navLink}>Add Item</Link>
             <Link href="/view-cart" className={styles.navLink}>View Cart</Link>
             <button onClick={handleLogout} className={styles.logoutButton}>
               Logout
             </button>
-
           </>
         ) : (
           <>
