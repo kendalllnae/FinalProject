@@ -1,54 +1,71 @@
-/* src/components/Header.module.css */
+/* Header Styles */
 .header {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    border-bottom: 2px solid #ddd;
-    background-color: #1f2937;
-  }
-  
-  .logoSection {
-    display: flex;
-    align-items: center;
-  }
-  
-  .logo {
-    height: 100px;
-    width: 100px;
-    margin-right: 1rem;
-  }
-  
-  .navLinks {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-  }
-  
-  .navLink {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  
-  .navLink:hover {
-    text-decoration: underline;
-  }
-  
-  .logoutButton {
-    padding: 0.5rem 1rem;
-    background-color: #ef4444;
-    color: white;
-    border: none;
-    border-radius: 0.375rem;
-    cursor: pointer;
-  }
-  
-  .logoutButton:hover {
-    background-color: #dc2626;
-  }
-  
-  .authLinks {
-    display: flex;
-    gap: 1rem;
-  }
-  
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Center items vertically */
+  padding: 10px 20px; /* Add side padding for spacing */
+  border-bottom: 2px solid #ddd;
+  background-color: #1f2937; /* Dark background color */
+  width: 100%; /* Ensure header spans full width of the screen */
+  box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.logoSection {
+  display: flex;
+  align-items: center; /* Center logo and text vertically */
+}
+
+.logo {
+  height: 100px;
+  width: 100px;
+  margin-right: 1rem;
+}
+
+.navLinks {
+  display: flex;
+  gap: 1rem; /* Add spacing between navigation links */
+  align-items: center;
+}
+
+.navLink {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease-in-out; /* Smooth hover effect */
+}
+
+.navLink:hover {
+  text-decoration: underline;
+  color: #3b82f6; /* Add a hover color (blue) */
+}
+
+.logoutButton {
+  padding: 0.5rem 1rem;
+  background-color: #ef4444; /* Red button color */
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out; /* Smooth hover effect */
+}
+
+.logoutButton:hover {
+  background-color: #dc2626; /* Darker red on hover */
+}
+
+.authLinks {
+  display: flex;
+  gap: 1rem; /* Add spacing between Login/Signup links */
+}
+
+/* Body and Container Reset */
+.body {
+  margin: 0; /* Remove default body margins */
+  padding: 0;
+}
+
+.container {
+  width: 100%; /* Ensure no restriction on the header's width */
+  margin: 0;
+  padding: 0;
+}
