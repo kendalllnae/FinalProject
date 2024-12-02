@@ -1,3 +1,4 @@
+// page.tsx
 "use client";
 import Item from "./components/Item";
 import { useEffect, useState } from "react";
@@ -5,65 +6,122 @@ import Link from "next/link";
 import Header from "./components/Header";
 import styles from "./page.module.css";
 import AddItem from "./components/AddItem";
+import API from "./config/config";
 
-const dummyData = [
-  { id: 1, title: "Black Nikes", image: "./images/black-nikes.jpg", price: "$79.99", availableSizes: "Men 10" },
-  { id: 2, title: "White Nikes", image: "./images/white-nikes.jpg", price: "$59.99", availableSizes: "Women 8" },
-  { id: 3, title: "Green Adidas", image: "./images/green-adidas.jpg", price: "$59.99", availableSizes: "Women 7" },
-  { id: 4, title: "White Adidas", image: "./images/white-adidas.jpg", price: "$69.99", availableSizes: "Women 6" },
-  { id: 5, title: "Black Timberland", image: "./images/black-timberland.jpg", price: "$49.99", availableSizes: "Kids 12" },
-  { id: 6, title: "Brown Timberland", image: "./images/brown-timberland.jpg", price: "$49.99", availableSizes: "Men 9" },
-  { id: 7, title: "White Jordans", image: "./images/white-jordans.jpg", price: "$79.99", availableSizes: "Men 12" },
-  { id: 8, title: "Blue Jordans", image: "./images/blue-jordans.jpg", price: "$79.99", availableSizes: "Men 10" },
-];
+interface Product {
+  id: string;
+  title: string;
+  image: string;
+  price: string;
+  availableSizes: string;
+}
+
+interface NewItemData {
+  title: string;
+  image: string;
+  price: string;
+  availableSizes: string;
+}
+
+const fetchItems = async () => {
+  const response = await fetch(`${API}/items`);
+  const data = await response.json();
+  return data;
+};
 
 export default function Home() {
-  const [items, setItems] = useState(dummyData);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Default set to logged out
-  const [userRole, setUserRole] = useState(""); // Default set to customer
+  const [items, setItems] = useState<Product[]>([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userRole, setUserRole] = useState("customer");
 
   useEffect(() => {
-    // Check login status on mount
     const loginStatus = localStorage.getItem("isLoggedIn");
     const role = localStorage.getItem("userRole");
     setIsLoggedIn(loginStatus === "true");
     setUserRole(role || "customer");
+
+    const getItems = async () => {
+      const itemsFromBackend = await fetchItems();
+      setItems(itemsFromBackend);
+    };
+
+    getItems();
   }, []);
 
-  // Function to handle adding a new item
-  const handleAddItem = (newItem: { title: string; image: string; price: string; availableSizes: string }) => {
-    setItems([...items, { ...newItem, id: Date.now() }]); // Add with a unique ID
+  const handleAddItem = async (newItem: NewItemData) => {
+    try {
+      const response = await fetch(`${API}/items/add`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newItem),
+      });
+
+      if (response.ok) {
+        const savedItem = await response.json();
+        setItems((prevItems) => [...prevItems, savedItem]);
+      } else {
+        console.error("Error adding item");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
-  // Function to handle editing an item
-  const handleEditItem = (updatedItem: { id: number; title: string; image: string; price: string; availableSizes: string }) => {
-    setItems(items.map((item) => (item.id === updatedItem.id ? updatedItem : item)));
+  const handleEditItem = async (updatedItem: Product) => {
+    const response = await fetch(`${API}/items/${updatedItem.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedItem),
+    });
+
+    if (response.ok) {
+      const editedItem = await response.json();
+      setItems(
+        items.map((item) => (item.id === updatedItem.id ? editedItem : item))
+      );
+    } else {
+      console.error("Error editing item");
+    }
   };
 
-  // Function to handle deleting an item
-  const handleDeleteItem = (id: number) => {
-    setItems(items.filter((item) => item.id !== id));
+  const handleDeleteItem = async (id: string) => {
+    const response = await fetch(`${API}/items/${id}`, {
+      method: "DELETE",
+    });
+
+    if (response.ok) {
+      setItems(items.filter((item) => item.id !== id));
+    } else {
+      console.error("Error deleting item");
+    }
   };
 
   return (
     <div className={styles.container}>
-      <Header isLoggedIn={isLoggedIn} userRole={userRole} setIsLoggedIn={setIsLoggedIn} />
-      <h1 className={styles.heading}>Welcome to Our Shoe Shop! </h1>
+      <Header
+        isLoggedIn={isLoggedIn}
+        userRole={userRole}
+        setIsLoggedIn={setIsLoggedIn}
+      />
+      <h1 className={styles.heading}>Welcome to Our Shoe Shop!</h1>
 
       <div className={styles.itemGrid}>
         {items.map((item) => (
           <Item
             key={item.id}
             item={item}
-            onEdit={userRole === "admin" ? handleEditItem : () => {}} // Only admins can edit
-            onDelete={userRole === "admin" ? handleDeleteItem : () => {}} // Only admins can delete
+            onEdit={userRole === "admin" ? handleEditItem : undefined}
+            onDelete={userRole === "admin" ? handleDeleteItem : undefined}
+            isAdmin={userRole === "admin"}
           />
         ))}
       </div>
 
       {isLoggedIn && userRole === "admin" && (
         <>
-          <AddItem onSave={handleAddItem} />
+          <AddItem 
+            onSave={handleAddItem}  // Explicitly pass the function here
+          />
           <Link href="/add-item" className={styles.addItemLink}>
             Add New Item
           </Link>
