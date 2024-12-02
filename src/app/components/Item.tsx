@@ -4,14 +4,14 @@ import { addToCart } from "./CartStore";
 
 interface ItemProps {
   item: {
-    id: string;
+    _id: string;
     title: string;
     image: string;
     price: string;
     availableSizes: string;
   };
   onEdit?: (item: {
-    id: string;
+    _id: string;
     title: string;
     image: string;
     price: string;
@@ -27,8 +27,11 @@ export default function Item({
   onDelete = () => {}, // Default no-op function
   isAdmin,
 }: ItemProps) {
+
+
   const handleEditClick = () => {
-    if (isAdmin && onEdit) {
+
+    if (isAdmin ) {
       onEdit(item);
     }
   };
@@ -36,14 +39,12 @@ export default function Item({
   const handleDeleteClick = () => {
     if (isAdmin && onDelete) {
       if (confirm("Are you sure you want to delete this item?")) {
-        onDelete(item.id);
+       
+        onDelete(item._id);
       }
     }
   };
 
-  const handleBuyClick = () => {
-    alert(`You have purchased ${item.title} for ${item.price}!`);
-  };
 
   return (
     <div className="p-4 border rounded-md text-center shadow-md">

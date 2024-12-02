@@ -7,9 +7,10 @@ import Header from "./components/Header";
 import styles from "./page.module.css";
 import AddItem from "./components/AddItem";
 import API from "./config/config";
+import EditItemForm from "./components/EditForm";
 
 interface Product {
-  id: string;
+  _id: string;
   title: string;
   image: string;
   price: string;
@@ -33,6 +34,8 @@ export default function Home() {
   const [items, setItems] = useState<Product[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState("customer");
+  const [editingItem, setEditingItem] = useState<Product | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     const loginStatus = localStorage.getItem("isLoggedIn");
@@ -67,20 +70,34 @@ export default function Home() {
     }
   };
 
-  const handleEditItem = async (updatedItem: Product) => {
-    const response = await fetch(`${API}/items/${updatedItem.id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updatedItem),
-    });
+  const handleEditButtonClick = (item: Product) => {
+    console.log("Editing item:", item);
+    setEditingItem(item);
+    setIsEditing(true);
+  };
 
-    if (response.ok) {
-      const editedItem = await response.json();
-      setItems(
-        items.map((item) => (item.id === updatedItem.id ? editedItem : item))
-      );
-    } else {
-      console.error("Error editing item");
+  const handleSaveEdit = async (updatedItem: Product) => {
+    try {
+      const response = await fetch(`${API}/items/${updatedItem._id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedItem),
+      });
+
+      if (response.ok) {
+        const editedItem = await response.json();
+        setItems((prevItems) =>
+          prevItems.map((item) =>
+            item._id === updatedItem._id ? editedItem : item
+          )
+        );
+        setIsEditing(false);
+        setEditingItem(null);
+      } else {
+        console.error("Error saving changes");
+      }
+    } catch (error) {
+      console.error("Error:", error);
     }
   };
 
@@ -90,7 +107,7 @@ export default function Home() {
     });
 
     if (response.ok) {
-      setItems(items.filter((item) => item.id !== id));
+      setItems(items.filter((item) => item._id !== id));
     } else {
       console.error("Error deleting item");
     }
@@ -108,9 +125,9 @@ export default function Home() {
       <div className={styles.itemGrid}>
         {items.map((item) => (
           <Item
-            key={item.id}
+            key={item._id}
             item={item}
-            onEdit={userRole === "admin" ? handleEditItem : undefined}
+            onEdit={userRole === "admin" ? handleEditButtonClick : undefined}
             onDelete={userRole === "admin" ? handleDeleteItem : undefined}
             isAdmin={userRole === "admin"}
           />
@@ -119,14 +136,25 @@ export default function Home() {
 
       {isLoggedIn && userRole === "admin" && (
         <>
-          <AddItem 
-            onSave={handleAddItem}  // Explicitly pass the function here
+          <AddItem
+            onSave={handleAddItem} // Explicitly pass the function here
           />
           <Link href="/add-item" className={styles.addItemLink}>
             Add New Item
           </Link>
         </>
       )}
+      {isEditing && editingItem && (
+        <EditItemForm
+          item={editingItem}
+          onSave={handleSaveEdit}
+          onCancel={() => {
+            setIsEditing(false);
+            setEditingItem(null);
+          }}
+        />
+      )}
+      
     </div>
   );
 }
